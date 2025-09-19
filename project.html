@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer2market - Premium Farm Products</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ff6b35;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navigation */
+        nav {
+            background: #1a3d0a;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: #ff6b35;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234a7c59" width="1200" height="600"/><path fill="%235d8f6b" d="M0,200 Q300,150 600,200 T1200,200 L1200,600 L0,600 Z"/></svg>');
+            background-size: cover;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,53,0.4);
+        }
+
+        /* Product Categories */
+        .categories {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d5016;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #dee2e6;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .category-card h3 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* Products Grid */
+        .products {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #4a7c59, #6b8e23);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-farmer {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #2d5016;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .badge.organic {
+            background: #28a745;
+        }
+
+        .badge.fresh {
+            background: #17a2b8;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a3d0a;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ff6b35;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #ccc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-container {
+                margin: 0;
+                max-width: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #logo{
+           height: 130PX;
+            border-radius: 20px;
+            
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            
+            <a href="#" class="logo"> <a href="#" class="logo"> <!-- FarmerToMarket Logo with Ripple Oval + Rainbow Animation + Leaf -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="450" height="180" role="img" aria-label="FarmerToMarket logo">
+  <title>FarmerToMarket</title>
+
+  <!-- Rainbow gradient (VIBGYOR effect) -->
+  <defs>
+    <linearGradient id="rainbow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="violet">
+        <animate attributeName="stop-color" values="violet;indigo;blue;green;yellow;orange;red;violet" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="red">
+        <animate attributeName="stop-color" values="red;violet;indigo;blue;green;yellow;orange;red" dur="6s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Ripple Oval -->
+  <ellipse cx="450" cy="250" rx="380" ry="150" fill="none" stroke="url(#rainbow)" stroke-width="12"
+           stroke-dasharray="1800" stroke-dashoffset="1800">
+    <!-- Stroke draw ripple effect -->
+    <animate attributeName="stroke-dashoffset" values="1800;0;1800" dur="5s" repeatCount="indefinite"/>
+    <!-- Gentle scale to simulate water ripple -->
+    <animateTransform attributeName="transform" attributeType="XML"
+                      type="scale" values="1;1.05;1" dur="5s" repeatCount="indefinite"
+                      additive="sum"/>
+  </ellipse>
+
+  <!-- Top text: F2M -->
+  <text x="50%" y="230" text-anchor="middle"
+        font-family="Poppins, Arial, sans-serif"
+        font-weight="900" font-size="110"
+        fill="white">
+    F2M
+  </text>
+
+  <!-- Leaf on F -->
+  <path d="M310 150 C320 130 360 130 370 155 C358 170 330 178 312 172 C304 168 302 160 310 150 Z"
+        fill="#4caf50"/>
+
+  <!-- Bottom text: FarmerToMarket -->
+  <text x="50%" y="320" text-anchor="middle"
+        font-family="Poppins, Arial, sans-serif"
+        font-weight="700" font-size="64"
+        fill="white">
+    FarmerToMarket
+  </text>
+</svg></a>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search for rice, vegetables, fruits..." id="searchInput">
+                <button class="search-btn" onclick="searchProducts()">🔍</button>
+            </div>
+            <div class="header-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#catogories">Grains & Rice</a></li>
+                <li><a href="#catogories">Vegetables</a></li>
+                <li><a href="#catogories">Fruits</a></li>
+                <li><a href="#catogories">Dairy & Eggs</a></li>
+                <li><a href="#catogories">Organic</a></li>
+                <li><a href="#footer">Contact</a></li>
+                <li><a href="logins.html" style="background:lightskyblue; color: black;" >Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>TO MAKE A REVOLUTION IN THE AGRICULTURAL FIELD</h1>
+            <p>Discover premium quality agricultural products directly from trusted farmers. Fresh, organic, and sustainably grown.</p>
+            <a href="#products" class="cta-btn">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="categories" id="catogories">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <span class="category-icon">🌾</span>
+                    <h3>Grains & Rice</h3>
+                    <p>Premium basmati, jasmine rice, wheat, and other grains</p>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🥕</span>
+                    <h3>Fresh Vegetables</h3>
+                    <p>Farm-fresh vegetables harvested daily</p>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🍎</span>
+                    <h3>Seasonal Fruits</h3>
+                    <p>Sweet, juicy fruits picked at perfect ripeness</p>
+                </div>
+                <div class="category-card">
+                    <span class="category-icon">🥛</span>
+                    <h3>Dairy & Eggs</h3>
+                    <p>Fresh milk, cheese, and free-range eggs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Farmer To Market</h3>
+                <p>Connecting consumers directly with local farmers to provide the freshest, highest quality agricultural products.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#farmers">Our Farmers</a></li>
+                    <li><a href="#quality">Quality Promise</a></li>
+                    <li><a href="#shipping">Shipping Info</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#returns">Returns</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <ul>
+                    <li><a href="#">📱 Mobile App</a></li>
+                    <li><a href="#">📧 Newsletter</a></li>
+                    <li><a href="#">📞 1-800-Farmer-To-Market</a></li>
+                    <li><a href="#">🌐 Social Media</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Farmer To Market. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Premium Basmati Rice",
+                farmer: "Green Valley Farms",
+                price: "₹ 24.99",
+                rating: 4.8,
+                description: "Aromatic, long-grain basmati rice grown in the fertile plains. Perfect for biryanis and pilafs.",
+                icon: "🌾",
+                badge: "organic"
+            },
+            {
+                id: 2,
+                name: "Jasmine Rice",
+                farmer: "Sunrise Agriculture",
+                price: "₹ 19.99",
+                rating: 4.7,
+                description: "Fragrant jasmine rice with a subtle floral aroma. Ideal for Asian cuisine.",
+                icon: "🌾",
+                badge: "fresh"
+            },
+            {
+                id: 3,
+                name: "Brown Rice",
+                farmer: "Healthy Harvest Co.",
+                price: "₹ 16.99",
+                rating: 4.6,
+                description: "Nutritious whole grain brown rice, rich in fiber and minerals.",
+                icon: "🌾",
+                badge: "organic"
+            },
+            {
+                id: 4,
+                name: "Wild Rice Blend",
+                farmer: "Mountain Creek Farm",
+                price: "₹ 32.99",
+                rating: 4.9,
+                description: "Premium wild rice blend with a nutty flavor and chewy texture.",
+                icon: "🌾",
+                badge: "organic"
+            },
+            {
+                id: 5,
+                name: "Fresh Tomatoes",
+                farmer: "Sunny Meadows",
+                price: "₹ 8.99",
+                rating: 4.5,
+                description: "Vine-ripened tomatoes bursting with flavor. Perfect for salads and cooking.",
+                icon: "🍅",
+                badge: "fresh"
+            },
+            {
+                id: 6,
+                name: "Organic Carrots",
+                farmer: "Pure Earth Organics",
+                price: "₹ 6.99",
+                rating: 4.7,
+                description: "Sweet, crunchy organic carrots grown without pesticides.",
+                icon: "🥕",
+                badge: "organic"
+            },
+            {
+                id: 7,
+                name: "Sweet Corn",
+                farmer: "Golden Fields",
+                price: "₹ 12.99",
+                rating: 4.6,
+                description: "Fresh sweet corn on the cob, harvested at peak sweetness.",
+                icon: "🌽",
+                badge: "fresh"
+            },
+            {
+                id: 8,
+                name: "Mixed Berries",
+                farmer: "Berry Patch Farm",
+                price: "₹ 15.99",
+                rating: 4.8,
+                description: "Fresh mixed berries including strawberries, blueberries, and raspberries.",
+                icon: "🍓",
+                badge: "fresh"
+            }
+        ];
+
+        let cart = [];
+        let filteredProducts = [...products];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts(products);
+            updateCartCount();
+        });
+
+        // Display products
+        function displayProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            productsToShow.forEach(product => {
+                const productCard = `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${product.icon}
+                        </div>
+                        <div class="badge ${product.badge}">${product.badge.toUpperCase()}</div>
+                        <div class="product-info">
+                            <div class="product-title">${product.name}</div>
+                            <div class="product-farmer">by ${product.farmer}</div>
+                            <div class="product-description">${product.description}</div>
+                            <div class="product-rating">
+                                <span class="stars">⭐⭐⭐⭐⭐</span>
+                                <span>${product.rating}</span>
+                            </div>
+                            <div class="product-price">${product.price}</div>
+                            <button class="add-to-cart" onclick="addToCart(${product.id})">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
+        }
+
+        // Add to cart functionality
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+
+            updateCartCount();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = '#28a745';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#4a7c59';
+            }, 1000);
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        // Search functionality
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm) ||
+                    product.farmer.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Enter key search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+
+        //cart
+function toggleCart() {
+    if (cart.length === 0) {
+        alert('Your cart is empty. Add some fresh products!');
+    } else {
+        let cartSummary = '🛒 Your Cart:\n\n';
+        let total = 0;
+  cart.forEach(item => {
+            // Remove ₹ symbol and convert price to number
+            const price = parseFloat(item.price.replace('₹', ''));
+            const itemTotal = price * item.quantity;
+
+            // Add item line with ₹ symbol
+            cartSummary += `${item.name} x ${item.quantity} - ₹${itemTotal.toFixed(2)}\n`;
+            total += itemTotal;
+        });
+
+        // Add total line with ₹ symbol
+        cartSummary += `\n🧾 Total: ₹${total.toFixed(2)}`;
+        alert(cartSummary);
+    }
+}
+
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
